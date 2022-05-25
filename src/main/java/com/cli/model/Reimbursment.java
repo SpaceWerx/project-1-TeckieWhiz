@@ -1,4 +1,4 @@
-package model;
+package com.cli.model;
 
 public class Reimbursment 
 {
@@ -11,9 +11,6 @@ public class Reimbursment
 	private Status status;
 	private double amount;
 	
-	public Reimbursment() {
-		super();
-	}
 	
 	public Reimbursment(int id, int author, int resolver, String description, Reimbursment_Type type, Status status,
 			double amount) {
@@ -27,63 +24,95 @@ public class Reimbursment
 		this.amount = amount;
 	}
 
+	
+		
+	public Reimbursment()
+	{
+		super();
+	}
+
+
+
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+
 
 	public int getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(int author) {
-		this.author = author;
-	}
+
 
 	public int getResolver() {
 		return resolver;
 	}
 
-	public void setResolver(int resolver) {
-		this.resolver = resolver;
-	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 
 	public Reimbursment_Type getType() {
 		return type;
 	}
 
-	public void setType(Reimbursment_Type type) {
-		this.type = type;
-	}
+
 
 	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+
 
 	public double getAmount() {
 		return amount;
 	}
 
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+
+	public void setAuthor(int author) {
+		this.author = author;
+	}
+
+
+
+	public void setResolver(int resolver) {
+		this.resolver = resolver;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public void setType(Reimbursment_Type type) {
+		this.type = type;
+	}
+
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+
+
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	
-	
-		
+
 }
-	

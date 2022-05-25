@@ -1,4 +1,4 @@
-package model;
+package com.cli.model;
 
 public class User 
 {

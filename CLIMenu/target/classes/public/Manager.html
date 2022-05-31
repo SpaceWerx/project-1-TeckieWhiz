@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Manager Portal</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <link href="manager.css" rel="stylesheet" />
+  
+  <link rel="icon" type="image/x-icon" href="favicon.png" />
+</head>
+
+<body>
+<header>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+  <div id="nav" class="container">
+      <img src="rev-logo.png" alt="revature Logo">
+      <div class="d-flex">
+      	<button id="logout-button" class="btn btn-outline-success">logout</button>
+      </div>
+  </div>
+</nav>
+</header>
+
+<div class="container" style="padding-top:100px;">
+  <h2>Manager Portal</h2>
+  
+  	<div id="display-buttons">
+			<button id="reim-list-button" class="btn btn-outline-dark">
+		      		Reimbursements List
+	      	</button>
+	      	
+	      	<button id="emp-list-button" class="btn btn-outline-dark">
+		      		Employees List
+	      	</button>
+	      	
+     </div>
+   <div id="reim-table-area" style="height: 400px;overflow: scroll;">
+   	<table id="reim-table" class="table table-stripped table-hover">
+			<thead class="sticky-top bg-white">
+				<tr><th colspan="5">Reimbursements List</th></tr>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Type</th>
+					<th scope="col">Description</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Status</th>
+				</tr>
+			</thead>
+			<tbody id="reim-table-body">
+			</tbody>
+		</table>
+	</div>
+	<div id="user-table-area" style="height: 400px;overflow: scroll;">
+		<table id="user-table" class="table table-stripped table-hover">
+			<thead class="sticky-top bg-white">
+				<tr><th colspan="5">Users List</th></tr>
+				<tr>
+					<th scope="col">User ID</th>
+					<th scope="col">User Name</th>
+					<th scope="col">Role</th>
+				</tr>
+			</thead>
+			<tbody id="user-table-body">
+			</tbody>
+		</table>
+	</div>
+  	<div id="reim-area" style="height: 450px;">
+  	
+   		<h4>Reimbursement Approval</h4>
+   		<div id="form-area" class="form-container">
+   		
+			<form id="reimForm" method="post" action="/updateReimbursment">
+					
+					<input type="hidden" id="resolver" name="resolver" value="">
+					<input type="hidden" id="currStatus" name="currStatus" value="">
+					
+						
+					<div class="input-group mb-3">
+						<span class="input-group-text">Id</span> 
+						<input type="text"	id="id" name="id" class="form-control" value="" readOnly >
+					</div>
+					
+					<div class="input-group mb-3">
+						<span class="input-group-text">Type</span> 
+						<input type="text"	id="type" name="type" class="form-control" value="" readOnly >
+					</div>
+						
+					
+					<div class="input-group mb-3">
+						<span class="input-group-text">Description</span>
+						<textarea class="form-control" id="description" name="description" value="" readOnly></textarea>
+					</div>
+
+					
+					<div class="input-group mb-3">
+						<span class="input-group-text">Amount</span> 
+						<span class="input-group-text">$</span> 
+						<input type="text"	id="amount" name="amount" class="form-control" value="" readOnly>
+					</div>
+					
+					<div class="input-group mb-3">
+						<label class="input-group-text" for="typeStatus">Status</label> 
+						<label class="input-group-text" id="currentStatus" for="typeStatus">xxxxxxx</label> 
+						<select	class="form-select" id="status"	name="status"	aria-label="Default select example">
+							<option selected>Choose..</option>
+							<option value="Pending">Pending</option>
+							<option value="Approved">Approved</option>
+							<option value="Denied">Denied</option>
+						</select>
+					</div>
+					
+							
+					<input id="updateButton" type="button" value="Submit">
+					
+				</form>
+				
+
+			</div>
+ 	</div>
+
+	<div id="submitError" ></div>
+	
+		
+  
+</div>
+
+
+
+
+
+
+</body>
+  <script src="serverRequests.js"></script>
+<script>
+
+document.getElementById("logout-button").addEventListener("click",logout);
+document.getElementById("emp-list-button").addEventListener("click",showUsersList);
+document.getElementById("reim-list-button").addEventListener("click",showReimbList);
+
+document.getElementById("reim-list-button").hidden=true;
+document.getElementById("user-table-area").hidden=true;
+document.getElementById("reim-area").hidden=true;
+document.getElementById("updateButton").addEventListener("click",updateReimbursement);
+
+var currentUser = null;
+sendAjaxRequest("GET", "activeUser_service", null, activeUser,activeUser,null);
+const authHeader = localStorage.getItem("current-user");
+
+
+
+function updateReimbursement()
+{
+	const formElement = document.querySelector('form')
+	var formData = new FormData(formElement);
+	sendAjaxRequest("POST", "updateReimbursment", formData, updateReimbursementSuccess,updateReimbursementFailed,authHeader);
+}
+
+function getReimbursements()
+{
+	sendAjaxRequest("GET", "allReimbursments", null, ReimbtableRenderSuccess,ReimbtableRenderFailed,authHeader);
+}
+
+function getEmployees()
+{
+	sendAjaxRequest("GET", "users", null, UsertableRenderSuccess,UsertableRenderFailed,authHeader);
+}
+
+function activeUser(xhr)
+{
+	var user = JSON.parse(xhr);
+	currentUser = user.id;
+	if(currentUser > 0)
+	{
+		localStorage.setItem('current-user', currentUser);
+		document.getElementById("resolver").value=""+currentUser;
+		getReimbursements();
+		getEmployees();
+	}
+	else{
+		window.location.href="index.html";
+		}
+}
+function UsertableRenderSuccess(xhr)
+{
+	const users = JSON.parse(xhr);
+	document.getElementById("user-table").hidden=false;
+	
+	const tableBody = document.getElementById("user-table-body");
+	for(let user of users)
+	{
+		let newRow = document.createElement("tr");
+		
+		let idColumn = document.createElement("td");
+		idColumn.innerText=user.id;
+		
+		let nameColumn = document.createElement("td");
+		nameColumn.innerText=user.userName;
+		
+		let roleColumn = document.createElement("td");
+		roleColumn.innerText=user.role;
+		
+		newRow.appendChild(idColumn);
+		newRow.appendChild(nameColumn);
+		newRow.appendChild(roleColumn);
+		
+		newRow.setAttribute("class", "dataRow");
+		
+		tableBody.appendChild(newRow);
+	}
+}
+
+function showUsersList()
+{
+	document.getElementById("user-table-area").hidden=false;
+	document.getElementById("reim-table-area").hidden=true;
+	
+	document.getElementById("reim-list-button").hidden=false;
+	document.getElementById("emp-list-button").hidden=true;
+	
+	document.getElementById("reim-area").hidden=true;
+	
+}
+
+function showReimbList()
+{
+	document.getElementById("user-table-area").hidden=true;
+	document.getElementById("reim-table-area").hidden=false;
+	
+	document.getElementById("reim-list-button").hidden=true;
+	document.getElementById("emp-list-button").hidden=false;
+	
+	document.getElementById("reim-area").hidden=true;
+	
+}
+
+
+
+function UsertableRenderFailed(xhr)
+{
+	const messageDiv= document.getElementById("message");
+	messageDiv.hidden=false;
+	messageDiv.innerText=xhr.responseText;
+}
+
+function ReimbtableRenderSuccess(xhr)
+{
+	//alert("Success>>>>"+xhr);
+	const reimbursements = JSON.parse(xhr);
+	document.getElementById("reim-table").hidden=false;
+	
+	const tableBody = document.getElementById("reim-table-body");
+	for(let reimbursement of reimbursements)
+	{
+		let newRow = document.createElement("tr");
+		
+		let idColumn = document.createElement("td");
+		idColumn.innerText=reimbursement.id;
+		
+		let typeColumn = document.createElement("td");
+		typeColumn.innerText=reimbursement.type;
+		
+		let descColumn = document.createElement("td");
+		descColumn.innerText=reimbursement.description;
+		
+		let amountColumn = document.createElement("td");
+		amountColumn.innerText="$ "+reimbursement.amount;
+		
+		let statusColumn = document.createElement("td");
+		statusColumn.innerText=reimbursement.status;
+		
+		newRow.appendChild(idColumn);
+		newRow.appendChild(typeColumn);
+		newRow.appendChild(descColumn);
+		newRow.appendChild(amountColumn);
+		newRow.appendChild(statusColumn);
+		
+		newRow.setAttribute("onclick", "processReimbursement('"+reimbursement.id+"','"+reimbursement.type+"','"+reimbursement.description+"','"+reimbursement.amount+"','"+reimbursement.status+"')");
+		newRow.setAttribute("id", "#"+reimbursement.id);
+		newRow.setAttribute("class", "dataRow");
+		
+		tableBody.appendChild(newRow);
+	}
+	
+}
+
+function processReimbursement(id,type,description,amount,status)
+{
+	
+	document.getElementById("reim-area").hidden=false;
+	document.getElementById("user-table-area").hidden=true;
+	document.getElementById("reim-table-area").hidden=true;
+	
+	document.getElementById("reim-list-button").hidden=false;
+	document.getElementById("emp-list-button").hidden=false;
+	
+	
+	document.getElementById("id").value=id;
+	document.getElementById("currStatus").value=status;
+	document.getElementById("type").value=type;
+	document.getElementById("description").value=description;
+	document.getElementById("amount").value=amount;
+	document.getElementById("currentStatus").innerText=status;
+	
+	
+	
+	
+	
+	
+}
+function ReimbtableRenderFailed(xhr)
+{
+	const messageDiv= document.getElementById("message");
+	messageDiv.hidden=false;
+	messageDiv.innerText=xhr.responseText;
+}
+
+function updateReimbursementSuccess(xhr)
+{
+	
+	var resp = JSON.parse(xhr);
+	
+	if(resp.UpdateStatus ==="Success")
+	{
+		document.getElementById("reim-area").hidden=true;
+		document.getElementById("reim-table-area").hidden=false;
+		document.getElementById("emp-list-button").hidden=false;
+	}else
+	{
+		document.getElementById("submitError").innerHTML = resp.UpdateStatus;
+	}
+}
+
+function updateReimbursementFailed(xhr)
+{
+	document.getElementById("submitError").innerHTML = xhr;
+}
+
+function logout()
+{
+	localStorage.removeItem("current-user");
+	window.location.href="index.html";
+}
+</script>
+
+
+
+</html>

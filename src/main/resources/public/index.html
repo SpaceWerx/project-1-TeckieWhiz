@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+    <style type="text/css">
+    
+    body {
+    font: normal 14px Verdana, Arial, sans-serif;
+     
+	}
+    
+    #inputText{
+        height: 25px;
+        width:100%;
+        border-radius: 5px;
+        padding: 4px;
+        border: solid thin #aaa;
+    }
+
+    #loginButton{
+
+        padding: 10px;
+        width: 100px;
+        color: white;
+        background-color: #199aea;
+        border: none;
+    }
+    
+  
+
+    #loginBox
+    {
+        display: inline-block;
+	    position: fixed;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    width: 300px;
+	    height: 250px;
+	    margin: auto;
+	    padding: 20px;
+	    background-color: grey;
+	    color: white;
+    }
+    
+    </style>
+	<br>
+	<br>
+	
+    <div id="loginBox">
+    
+        <form method="post" action="/login">
+            <div style="font-size: 20px;margin-bottom: 20px;color: white;">User Login</div>
+
+			User Name:
+            <input id="inputText" type="text" placeholder="User Name"  name="userName"><br><br>
+            
+            User Password:
+            <input id="inputText" type="password" placeholder="User Password" name="password"><br><br>
+
+            <input id="loginButton" type="submit" value="Login"><br><br>
+            
+            <div>New User ? please <a href="UserRegistration.html">Register</a> here.  </div>
+            
+        </form>
+    </div>
+</body>
+</html>

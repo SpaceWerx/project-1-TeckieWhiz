@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+    <style type="text/css">
+    
+    body {
+    font: normal 14px Verdana, Arial, sans-serif;
+     
+	}
+    
+    .inputText{
+        height: 25px;
+        width:100%;
+        border-radius: 5px;
+        padding: 4px;
+        border: solid thin #aaa;
+    }
+    
+    .inputSelect
+    {
+        height: 36px;
+        width:100%;
+        border-radius: 5px;
+        padding: 4px;
+        border: solid thin #aaa;
+    }
+
+    #RegButton{
+
+        padding: 10px;
+        width: 100px;
+        color: white;
+        background-color: #199aea;
+        border: none;
+    }
+   
+    #RegistrationBox
+    {
+        display: inline-block;
+	    position: fixed;
+	    top: 0;
+	    bottom: 0;
+	    left: 0;
+	    right: 0;
+	    width: 300px;
+	    height: 320px;
+	    margin: auto;
+	    padding: 20px;
+	    background-color: grey;
+	    color: white;
+    }
+    
+    </style>
+	<br>
+	<br>
+	
+    <div id="RegistrationBox">
+    
+        <form method="post" action="/register">
+            <div style="font-size: 20px;margin-bottom: 20px;color: white;">User Registration</div>
+			
+			User Name:
+            <input class="inputText" type="text" name="user_name"><br><br>
+            
+            Password:
+            <input class="inputText" type="password" name="password"><br><br>
+            
+            User Role:
+           <select class="inputSelect" name="user_role">
+		        <option value="saturday"> --- Role ----</option>
+		        <option value="Manager">Manager</option>
+		        <option value="Employee">Employee</option>
+		    </select><br><br>
+
+            <input id="RegButton" type="submit" value="Register"><br><br>
+          
+           <div>Already registered ?? <a href="index.html">Login</a> here.  </div>
+            
+        </form>
+    </div>
+</body>
+</html>

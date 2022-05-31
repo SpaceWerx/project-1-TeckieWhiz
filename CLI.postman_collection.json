@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "bff66ae8-094d-4852-8723-a51c5aae3699",
+		"name": "CLI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LoginUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/login_service?userName=mmmm&password=mmmm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"login_service"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "mmmm"
+						},
+						{
+							"key": "password",
+							"value": "mmmm"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userName\":\"testjson\",\"password\":\"TEST@1234\",\"role\":\"Employee\",\"id\":91}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7777/register_service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"register_service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Reimbursment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 99,\r\n        \"author\": \"3\",\r\n        \"resolver\": 0,\r\n        \"description\": \"Test Reimbursment from POST man\",\r\n        \"type\": \"Travel\",\r\n        \"status\": \"Pending\",\r\n        \"amount\": 99.99\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7777/addReimbursment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"addReimbursment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Reimbursment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"id\": 21,\r\n        \"author\": \"0\",\r\n        \"resolver\": \"20\",\r\n        \"status\": \"Approved\"\r\n       }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7777/approveReimbursment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"approveReimbursment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ActiveUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/activeUser_service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"activeUser_service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/users/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"users",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Reimbursments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/userReimbursments?author=20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"userReimbursments"
+					],
+					"query": [
+						{
+							"key": "author",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reimbursments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7777/allReimbursments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"allReimbursments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
